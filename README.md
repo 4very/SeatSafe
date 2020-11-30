@@ -42,3 +42,10 @@ The directory structure of a generated Revel application:
 * The [Revel sample apps](http://revel.github.io/examples/index.html).
 * The [API documentation](https://godoc.org/github.com/revel/revel).
 
+
+# SeatSafe
+### To install and setup a MySql server 
+1. Install docker
+2. To start a docker container for MySql with a default password for SeatSafe, run this command 
+     docker run --name safeseating-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=saferseating -d mysql:latest
+3. You can then connect with any MySql compatible client at localhost:3306.
