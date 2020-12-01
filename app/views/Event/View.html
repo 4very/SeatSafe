@@ -11,30 +11,56 @@
 </header>
 
 <div class="container">
-  <table style="border: 0px; width: 300px" >
+  <h1>Event</h1>
+  <table style="width: 400px" >
     <tr>
-      <th>Event Name:</th>
-      <td>{{.eventName}}</td>
+      <th>UID:</th>
+      <td>{{.event.UID}}</td>
     </tr>
     <tr>
-      <th>Contact Email:</th>
-      <td>{{.email}}</td>
+      <th>publicID:</th>
+      <td>{{.event.PublicID}}</td>
     </tr>
     <tr>
-      <th>Spots:</th>
+      <th>PrivateID:</th>
+      <td>{{.event.PrivateID}}</td>
+    </tr>
+    <tr>
+      <th>EventName:</th>
+      <td>{{.event.EventName}}</td>
+    </tr>
+    <tr>
+      <th>ContactEmail:</th>
+      <td>{{.event.ContactEmail}}</td>
+    </tr>
+    <tr>
+      <th>PublicallyListed:</th>
+      <td>{{.event.PublicallyListed}}</td>
+    </tr>
+    <tr>
+      <th>image:</th>
+      <td>{{.event.Image}}</td>
+    </tr>
+    <tr>
+      <th>SpotsGroups:</th>
       <td>
-        <table style="border: 1px; width: 75px">
+        <table style="border: 1px solid black; width: 175px">
+          <tr>
+            <th>UID</th>
+            <th>EventUID</th>
+            <th>Name</th>
+          </tr>
           {{range .spotGroups}}
           <tr>
-            <th>{{.Name}}</th>
-            <td>{{.Num}}</td>
+            <td>{{.UID}}</td>
+            <td>{{.EventUID}}</td>
+            <td>{{.Name}}</td>
           </tr>
           {{end}}
         </table>
       </td>
     </tr>
-    <tr>
-
+    
   </table>
 </div>
 
