@@ -1,17 +1,17 @@
 package models
 
-import (
-	"fmt"
-	"github.com/revel/revel"
-)
+import "github.com/revel/revel"
 
-type event struct {
-	UID                int
-	PublicID           string
-	PrivateID          string
-	eventName          string
-	contactEmail       string
-	publicallyListed   bool
-	image              string
+type Event struct {
+	UID              int
+	PublicID         string
+	PrivateID        string
+	EventName        string
+	ContactEmail     string
+	PublicallyListed bool
+	Image            string
 }
 
+func (e Event) Validate(v *revel.Validation) {
+
+}

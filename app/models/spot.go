@@ -1,13 +1,15 @@
 package models
 
 import (
-	"fmt"
 	"github.com/revel/revel"
 )
 
-type spot struct {
+type Spot struct {
 	UID            int
-	spotGroupUID   int
-	reservationUID int
+	SpotGroupUID   int
+	ReservationUID int
 }
 
+func (s Spot) Validate(v *revel.Validation) {
+
+}
