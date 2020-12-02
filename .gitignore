@@ -1,3 +1,9 @@
 test-results/
 tmp/
 routes/
+
+go.sum
+
+none
+
+target/app/SeatSafe/seatsafe.exe

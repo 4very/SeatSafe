@@ -1,21 +1,21 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
 
-<header class="jumbotron" style="background-color:#A9F16C">
+<header class="jumbotron">
   <div class="container">
     <div class="row">
-      <h1>It works!</h1>
+      <h1>SeatSafe</h1>
       <p></p>
     </div>
   </div>
 </header>
 
 <div class="container">
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
-  </div>
+  <a href="/event/view">view an event as a user</a><br>
+  <a href="/event/admin">view an event as an admin</a><br>
+  <a href="/test">reserve a seat</a><br>
+  <a href="/test">create an event</a>
 </div>
+
 
 {{template "footer.html" .}}

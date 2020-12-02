@@ -1,0 +1,67 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<header class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <h1>SeatSafe</h1>
+      <p></p>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <h1>Event</h1>
+  <table style="width: 400px" >
+    <tr>
+      <th>UID:</th>
+      <td>{{.event.UID}}</td>
+    </tr>
+    <tr>
+      <th>publicID:</th>
+      <td>{{.event.PublicID}}</td>
+    </tr>
+    <tr>
+      <th>PrivateID:</th>
+      <td>{{.event.PrivateID}}</td>
+    </tr>
+    <tr>
+      <th>EventName:</th>
+      <td>{{.event.EventName}}</td>
+    </tr>
+    <tr>
+      <th>ContactEmail:</th>
+      <td>{{.event.ContactEmail}}</td>
+    </tr>
+    <tr>
+      <th>PublicallyListed:</th>
+      <td>{{.event.PublicallyListed}}</td>
+    </tr>
+    <tr>
+      <th>image:</th>
+      <td>{{.event.Image}}</td>
+    </tr>
+    <tr>
+      <th>SpotsGroups:</th>
+      <td>
+        <table style="border: 1px solid black; width: 175px">
+          <tr>
+            <th>UID</th>
+            <th>EventUID</th>
+            <th>Name</th>
+          </tr>
+          {{range .spotGroups}}
+          <tr>
+            <td>{{.UID}}</td>
+            <td>{{.EventUID}}</td>
+            <td>{{.Name}}</td>
+          </tr>
+          {{end}}
+        </table>
+      </td>
+    </tr>
+    
+  </table>
+</div>
+
+{{template "footer.html" .}}
