@@ -5,9 +5,9 @@ import (
 )
 
 type SpotGroup struct {
-	UID      int
-	EventUID int
-	Name     string
+	SpotGroupId int
+	EventId     int
+	Name        string
 }
 
 func (sg SpotGroup) Validate(v *revel.Validation) {
