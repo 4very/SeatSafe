@@ -1,6 +1,9 @@
 package app
 
 import (
+	"database/sql"
+
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/revel/revel"
 )
 
@@ -10,6 +13,8 @@ var (
 
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
+
+	DB *sql.DB
 )
 
 func init() {
@@ -34,7 +39,7 @@ func init() {
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
 	// ( order dependent )
 	// revel.OnAppStart(ExampleStartupScript)
-	// revel.OnAppStart(InitDB)
+	revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
 }
 
@@ -48,6 +53,17 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 	c.Response.Out.Header().Add("Referrer-Policy", "strict-origin-when-cross-origin")
 
 	fc[0](c, fc[1:]) // Execute the next filter stage.
+}
+
+func InitDB() {
+	var err error
+	DB, err = sql.Open("mysql", "root:saferseating@tcp(localhost:3306)/SeatSafe")
+
+	if err != nil {
+		revel.AppLog.Error("Could not conenct to db", "error", err)
+	} else {
+		revel.AppLog.Info("Successfully connected to DB")
+	}
 }
 
 //func ExampleStartupScript() {
