@@ -67,7 +67,7 @@ func (c Event) Admin() revel.Result {
 	var joins []*TempJoin
 	for _, spot := range spots {
 		for _, reservation := range reservations {
-			if spot.ReservationId == reservation.UID {
+			if spot.ReservationId == reservation.ReservationId {
 				joins = append(joins, &TempJoin{Res: *reservation, SpotUID: spot.SpotId, SpotGroupUID: spot.SpotGroupId})
 			}
 		}
