@@ -12,33 +12,33 @@ type Event struct {
 
 // event example hardcode //
 var eventExample = &models.Event{
-	UID:              1,
-	PublicID:         "publicid1",
-	PrivateID:        "privateid1",
+	EventId:          1,
+	PublicId:         "publicid1",
+	PrivateId:        "privateid1",
 	EventName:        "event example",
 	ContactEmail:     "test@gmail.com",
 	PublicallyListed: false,
-	Image:            "example/path",
+	ImageUrl:         "example/path",
 }
 
 // spotgroup example hardcode //
 var spotGroupExample = []*models.SpotGroup{
-	{UID: 1, EventUID: 1, Name: "group1"},
-	{UID: 2, EventUID: 1, Name: "group2"},
+	{SpotGroupId: 1, EventId: 1, Name: "group1"},
+	{SpotGroupId: 2, EventId: 1, Name: "group2"},
 }
 
 var spotExample = []*models.Spot{
-	{UID: 1, SpotGroupUID: 1, ReservationUID: 1},
-	{UID: 2, SpotGroupUID: 1, ReservationUID: 4},
-	{UID: 3, SpotGroupUID: 2, ReservationUID: 2},
-	{UID: 4, SpotGroupUID: 2, ReservationUID: 3},
+	{SpotId: 1, SpotGroupId: 1, ReservationId: 1},
+	{SpotId: 2, SpotGroupId: 1, ReservationId: 4},
+	{SpotId: 3, SpotGroupId: 2, ReservationId: 2},
+	{SpotId: 4, SpotGroupId: 2, ReservationId: 3},
 }
 
 var reservationExample = []*models.Reservation{
-	{UID: 1, PrivateID: "privateid1", Email: "email1@gmail.com", Name: "Name1"},
-	{UID: 2, PrivateID: "privateid2", Email: "email2@gmail.com", Name: "Name2"},
-	{UID: 3, PrivateID: "privateid3", Email: "email3@gmail.com", Name: "Name3"},
-	{UID: 4, PrivateID: "privateid4", Email: "email4@gmail.com", Name: "Name4"},
+	{ReservationId: 1, PrivateId: "privateid1", Email: "email1@gmail.com", Name: "Name1"},
+	{ReservationId: 2, PrivateId: "privateid2", Email: "email2@gmail.com", Name: "Name2"},
+	{ReservationId: 3, PrivateId: "privateid3", Email: "email3@gmail.com", Name: "Name3"},
+	{ReservationId: 4, PrivateId: "privateid4", Email: "email4@gmail.com", Name: "Name4"},
 }
 
 func (c Event) View() revel.Result {
@@ -67,8 +67,8 @@ func (c Event) Admin() revel.Result {
 	var joins []*TempJoin
 	for _, spot := range spots {
 		for _, reservation := range reservations {
-			if spot.ReservationUID == reservation.UID {
-				joins = append(joins, &TempJoin{Res: *reservation, SpotUID: spot.UID, SpotGroupUID: spot.SpotGroupUID})
+			if spot.ReservationId == reservation.ReservationId {
+				joins = append(joins, &TempJoin{Res: *reservation, SpotUID: spot.SpotId, SpotGroupUID: spot.SpotGroupId})
 			}
 		}
 	}
