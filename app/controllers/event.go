@@ -35,10 +35,10 @@ var spotExample = []*models.Spot{
 }
 
 var reservationExample = []*models.Reservation{
-	{UID: 1, PrivateID: "privateid1", Email: "email1@gmail.com", Name: "Name1"},
-	{UID: 2, PrivateID: "privateid2", Email: "email2@gmail.com", Name: "Name2"},
-	{UID: 3, PrivateID: "privateid3", Email: "email3@gmail.com", Name: "Name3"},
-	{UID: 4, PrivateID: "privateid4", Email: "email4@gmail.com", Name: "Name4"},
+	{ReservationId: 1, PrivateId: "privateid1", Email: "email1@gmail.com", Name: "Name1"},
+	{ReservationId: 2, PrivateId: "privateid2", Email: "email2@gmail.com", Name: "Name2"},
+	{ReservationId: 3, PrivateId: "privateid3", Email: "email3@gmail.com", Name: "Name3"},
+	{ReservationId: 4, PrivateId: "privateid4", Email: "email4@gmail.com", Name: "Name4"},
 }
 
 func (c Event) View() revel.Result {
