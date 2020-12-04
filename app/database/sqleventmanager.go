@@ -28,9 +28,9 @@ func InsertEvent(ev models.Event) int64 {
 }
 
 func InsertSpot(spot models.Spot) int64 {
-	sql := "INSERT INTO Spot (SpotId, SpotGroupId, ReservationId) " +
-		"VALUES ($1, $2, $3);"
-	res, err := app.DB.Exec(sql, spot.SpotId, spot.SpotGroupId, spot.ReservationId)
+	sql := "INSERT INTO Spot (SpotGroupId) " +
+		"VALUES ($1);"
+	res, err := app.DB.Exec(sql, spot.SpotGroupId)
 	if err != nil {
 		revel.AppLog.Error("Error inserting a Spot into database", "error", err)
 		return -1

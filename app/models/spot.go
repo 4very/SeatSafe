@@ -5,9 +5,9 @@ import (
 )
 
 type Spot struct {
-	SpotId        int
-	SpotGroupId   int
-	ReservationId int
+	SpotId        int64
+	SpotGroupId   int64
+	ReservationId int64
 }
 
 func (s Spot) Validate(v *revel.Validation) {

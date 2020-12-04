@@ -5,8 +5,8 @@ import (
 )
 
 type SpotGroup struct {
-	SpotGroupId int
-	EventId     int
+	SpotGroupId int64
+	EventId     int64
 	Name        string
 }
 

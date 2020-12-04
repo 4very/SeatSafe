@@ -5,7 +5,7 @@ import (
 )
 
 type Reservation struct {
-	ReservationId int
+	ReservationId int64
 	PrivateId     string
 	Email         string
 	Name          string

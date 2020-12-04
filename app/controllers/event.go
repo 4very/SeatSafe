@@ -51,8 +51,8 @@ func (c Event) View() revel.Result {
 
 type TempJoin struct {
 	Res          models.Reservation
-	SpotUID      int
-	SpotGroupUID int
+	SpotUID      int64
+	SpotGroupUID int64
 }
 
 func (c Event) Admin() revel.Result {
