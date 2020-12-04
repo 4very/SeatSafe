@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="text-dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>EventCreation</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
+    <nav class="navbar navbar-light navbar-expand-md bg-dark navigation-clean-button" style="padding: 5px;">
+        <div class="container"><a class="navbar-brand text-white" href="#">Seat Safe</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#" style="color: rgb(23,162,184);">Browse Events</a></li>
+                </ul><span class="navbar-text actions"> <a class="btn btn-dark bg-dark border rounded-0 border-white action-button" role="button" href="#">Create Event</a></span></div>
+        </div>
+    </nav>
+    <div style="margin: auto;margin-left: 25em;margin-right: 25em;">
+        <h1 class="text-info" style="margin-top: .5em;">Event Creation</h1>
+        <p>Fill out the following information to create your event</p>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div style="margin-left: 1em;margin-right: 5em;"><label style="width: 150px;">&nbsp;Event Name</label>
+            <div class="form-group"><input class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div><label style="width: 150px;">&nbsp;Contact Email</label>
+            <div class="form-group"><input class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div><label>&nbsp;Event Privacy</label>
+            <div class="form-group"><select class="border rounded border-info" style="height: 30px;color: #808080;width: 140px;"><option value="12" selected="">Public</option><option value="13">Private</option></select></div><label style="width: 150px;">&nbsp;Add an Image (URL)</label>
+            <div
+                class="form-group"><input class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div>
+    </div>
+    <hr style="/*color: rgb(0,0,0);*/background: #000000;margin-top: 20px;margin-bottom: 20px;"><label style="width: 500px;color: rgb(23,162,184);"><strong>Create Your Seating Arrangement</strong><br></label>
+    <div style="margin-left: 1em;margin-right: 5em;border-color: rgb(23,162,184);"><label style="width: 500px;">Click buttons to add and remove Groups<br>Click Labels to change Group names<br></label>
+        <div class="row" style="margin-top: .25em;margin-bottom: .25em;">
+            <div class="col"><input type="radio" style="width: 16px;height: 16px;margin: 10px;color: rgb(0,0,0);filter: hue-rotate(0deg);border-style: none;border-color: rgb(0,0,0);"><input class="bg-white border-white shadow-none d-inline" type="text" placeholder="Group 1"
+                    style="border: none;width: 165px;" name="Group1"><label>Seats:&nbsp;</label><input class="border rounded border-info" type="number" style="width: 50px;border: 1px solid rgb(23,162,184) ;" placeholder="0" min="0" max="999"></div>
+        </div>
+        <div class="row" style="margin-top: .25em;margin-bottom: .25em;">
+            <div class="col"><input type="radio" style="width: 16px;height: 16px;margin: 10px;color: rgb(0,0,0);filter: hue-rotate(0deg);border-style: none;border-color: rgb(0,0,0);"><input class="bg-white border-white shadow-none d-inline" type="text" placeholder="Group 2"
+                    style="border: none;width: 165px;" name="Group1"><label>Seats:&nbsp;</label><input class="border rounded border-info" type="number" style="width: 50px;border: 1px solid rgb(23,162,184) ;" placeholder="0" min="0" max="999"></div>
+        </div>
+        <div class="row" style="margin-top: .25em;margin-bottom: .25em;">
+            <div class="col"><input type="radio" style="width: 16px;height: 16px;margin: 10px;color: rgb(0,0,0);filter: hue-rotate(0deg);border-style: none;border-color: rgb(0,0,0);"><label style="color: #808080;">&nbsp;Add Group</label></div>
+        </div>
+    </div>
+    <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+    <div><button class="btn btn-primary" type="button" style="margin: 5px;background: rgb(23,162,184);">Create Event</button><button class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: #414141;">Cancel</button></div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/dropdown.js"></script>
+</body>
+
+</html>
