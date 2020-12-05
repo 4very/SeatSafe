@@ -12,7 +12,7 @@ type SqlEventManager struct {
 
 func InsertEvent(ev models.Event) int64 {
 	sql := "INSERT INTO Event (PublicId, PrivateId, EventName, ContactEmail, PublicallyListed, ImageUrl) " +
-		"VALUES ($1, $2, $3, $4, $5, $6);"
+		"VALUES (?, ?, ?, ?, ?, ?);"
 	res, err := app.DB.Exec(sql, ev.PublicId, ev.PrivateId, ev.EventName, ev.ContactEmail, ev.PublicallyListed, ev.ImageUrl)
 	if err != nil {
 		revel.AppLog.Error("Error inserting an event into database", "error", err)
@@ -29,7 +29,7 @@ func InsertEvent(ev models.Event) int64 {
 
 func InsertSpot(spot models.Spot) int64 {
 	sql := "INSERT INTO Spot (SpotGroupId) " +
-		"VALUES ($1);"
+		"VALUES (?);"
 	res, err := app.DB.Exec(sql, spot.SpotGroupId)
 	if err != nil {
 		revel.AppLog.Error("Error inserting a Spot into database", "error", err)
@@ -45,7 +45,7 @@ func InsertSpot(spot models.Spot) int64 {
 
 func InsertSpotGroup(spotGroup models.SpotGroup) int64 {
 	sql := "INSERT INTO SpotGroup (EventId, Name) " +
-		"VALUES ($1, $2);"
+		"VALUES (?, ?);"
 	res, err := app.DB.Exec(sql, spotGroup.EventId, spotGroup.Name)
 	if err != nil {
 		revel.AppLog.Error("Error inserting a SpotGroup into database", "error", err)
@@ -60,8 +60,8 @@ func InsertSpotGroup(spotGroup models.SpotGroup) int64 {
 }
 
 func ReserveSpot(reservation models.Reservation, spot models.Spot) {
-	sql := "UPDATE Spot SET ReservationId = $1 " +
-		"SpotId = $2;"
+	sql := "UPDATE Spot SET ReservationId = ? " +
+		"SpotId = ?;"
 	_, err := app.DB.Exec(sql, reservation.ReservationId, spot.SpotId)
 	if err != nil {
 		revel.AppLog.Error("Error reserving a Spot in database", "error", err)
@@ -71,7 +71,7 @@ func ReserveSpot(reservation models.Reservation, spot models.Spot) {
 
 func DeleteEvent(event models.Event) {
 	sql := "DELETE FROM Event WHERE " +
-		"EventId = $1;"
+		"EventId = ?;"
 	_, err := app.DB.Exec(sql, event.EventId)
 	if err != nil {
 		revel.AppLog.Error("Error deleting an Event in database", "error", err)

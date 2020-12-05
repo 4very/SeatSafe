@@ -6,16 +6,16 @@ import (
 )
 
 type SpotGroupConfig struct {
-	name       string
-	numOfSpots int
+	Name       string
+	NumOfSpots int
 }
 
 func CreateSpotGroups(spotGroups []SpotGroupConfig, eventId int64) {
 	for _, spotGroupConfig := range spotGroups {
 		spotGroup := models.SpotGroup{
 			EventId: eventId,
-			Name:    spotGroupConfig.name}
+			Name:    spotGroupConfig.Name}
 		spotGroup.SpotGroupId = database.InsertSpotGroup(spotGroup)
-		CreateSpots(spotGroup.SpotGroupId, spotGroupConfig.numOfSpots)
+		CreateSpots(spotGroup.SpotGroupId, spotGroupConfig.NumOfSpots)
 	}
 }
