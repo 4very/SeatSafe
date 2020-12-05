@@ -8,8 +8,9 @@ module:testrunner
 
 
 GET     /                                       App.Index
-GET     /event/view                             Event.View
 GET     /event/admin                            Event.Admin
+GET     /event                                  Event.View
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
