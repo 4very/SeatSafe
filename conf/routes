@@ -10,6 +10,8 @@ module:testrunner
 GET     /                                       App.Home
 GET     /event                                  Event.View
 GET     /event/create                           Event.Create
+GET     /event/list                             Event.List
+
 POST    /event/createevent                      EventManager.CreateEvent
 GET     /reserve                                Reserve.Main
 GET     /reserve/cancel                         Reserve.Cancel

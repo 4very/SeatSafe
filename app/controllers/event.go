@@ -130,3 +130,7 @@ func (c Event) View(id string) revel.Result {
 func (c Event) Create(id string) revel.Result {
 	return c.Render()
 }
+
+func (c Event) List() revel.Result {
+	return c.Render()
+}
