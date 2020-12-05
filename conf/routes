@@ -8,8 +8,9 @@ module:testrunner
 
 
 GET     /                                       App.Index
-GET     /event/admin                            Event.Admin
 GET     /event                                  Event.View
+GET     /event/create                           Event.Create
+
 
 
 # Ignore favicon requests

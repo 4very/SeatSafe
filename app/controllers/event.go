@@ -93,3 +93,7 @@ func (c Event) View(id string) revel.Result {
 	// it needs this here but we wont need it ¯\_(ツ)_/¯
 	return c.Render(event, spotGroups, passin)
 }
+
+func (c Event) Create(id string) revel.Result {
+	return c.Render()
+}

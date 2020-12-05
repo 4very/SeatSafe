@@ -1,14 +1,23 @@
 <!DOCTYPE html>
+<html class="text-dark">
 
 <html>
   <head>
     <title>{{.title}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap-3.3.6.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/Navigation-with-Button.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/public/js/dropdown.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="/public/css/bootstrap-3.3.6.min.css"> -->
     <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png">
     <script src="/public/js/jquery-2.2.4.min.js"></script>
-    <script src="/public/js/bootstrap-3.3.6.min.js"></script>
+    <!-- <script src="/public/js/bootstrap-3.3.6.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="assets/css/Navigation-with-Button.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/styles.css"> -->
     {{range .moreStyles}}
       <link rel="stylesheet" type="text/css" href="/public/{{.}}">
     {{end}}
@@ -16,4 +25,17 @@
       <script src="/public/{{.}}" type="text/javascript" charset="utf-8"></script>
     {{end}}
   </head>
-  <body>
+
+<nav class="navbar navbar-light navbar-expand-md bg-dark navigation-clean-button" style="padding: 5px;">
+    <div class="container"><a class="navbar-brand text-white" href="#">Seat Safe</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse"
+            id="navcol-1">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item"></li>
+                <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#" style="color: rgb(23,162,184);">Browse Events</a></li>
+            </ul><span class="navbar-text actions"> <a class="btn btn-dark bg-dark border rounded-0 border-white action-button" role="button" href="/event/create">Create Event</a></span></div>
+    </div>
+</nav>
+
+{{template "footer.html" .}}
