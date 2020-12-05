@@ -2,37 +2,92 @@
 
 
 <body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">    
-    <div style="margin: auto;margin-left: 25em;margin-right: 25em;">
+    <div id="maindiv" style="margin: auto;margin-left: 25em;margin-right: 25em;">
         <h1 class="text-info" style="margin-top: .5em;">Event Creation</h1>
         <p>Fill out the following information to create your event</p>
         <hr style="/*color: rgb(0,0,0);*/background: #000000;">
-        <div style="margin-left: 1em;margin-right: 5em;"><label style="width: 150px;">&nbsp;Event Name</label>
-            <div class="form-group"><input class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div><label style="width: 150px;">&nbsp;Contact Email</label>
-            <div class="form-group"><input class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div><label>&nbsp;Event Privacy</label>
-            <div class="form-group"><select class="border rounded border-info" style="height: 30px;color: #808080;width: 140px;"><option value="12" selected="">Public</option><option value="13">Private</option></select></div><label style="width: 150px;">&nbsp;Add an Image (URL)</label>
-            <div
-                class="form-group"><input class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div>
+        <div style="margin-left: 1em;margin-right: 5em;">
+            <label style="width: 150px;">&nbsp;Event Name</label>
+                <div class="form-group"><input id="eventName" class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div>
+            <label style="width: 150px;">&nbsp;Contact Email</label>
+                <div class="form-group"><input id="contactEmail" class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div>
+            <label>&nbsp;Event Privacy</label>
+                <div class="form-group"><select id="eventPrivacy" class="border rounded border-info" style="height: 30px;color: #808080;width: 140px;"><option value="12" selected="">Public</option><option value="13">Private</option></select></div>
+            <label style="width: 150px;">&nbsp;Add an Image (URL)</label>
+                <div class="form-group"><input id="imageUrl" class="border rounded border-info" type="text" style="width: 300px;color: #808080;"></div>
     </div>
-    <hr style="/*color: rgb(0,0,0);*/background: #000000;margin-top: 20px;margin-bottom: 20px;"><label style="width: 500px;color: rgb(23,162,184);"><strong>Create Your Seating Arrangement</strong><br></label>
-    <div style="margin-left: 1em;margin-right: 5em;border-color: rgb(23,162,184);"><label style="width: 500px;">Click buttons to add and remove Groups<br>Click Labels to change Group names<br></label>
+    <hr style="/*color: rgb(0,0,0);*/background: #000000;margin-top: 20px;margin-bottom: 20px;">
         <div class="row" style="margin-top: .25em;margin-bottom: .25em;">
-            <div class="col"><input type="radio" style="width: 16px;height: 16px;margin: 10px;color: rgb(0,0,0);filter: hue-rotate(0deg);border-style: none;border-color: rgb(0,0,0);"><input class="bg-white border-white shadow-none d-inline" type="text" placeholder="Group 1"
-                    style="border: none;width: 165px;" name="Group1"><label>Seats:&nbsp;</label><input class="border rounded border-info" type="number" style="width: 50px;border: 1px solid rgb(23,162,184) ;" placeholder="0" min="0" max="999"></div>
+            <div class="col">
+                <label>Seat Group Name:&nbsp;</label><input class="border rounded border-info" type="text" placeholder="Group 1" style="width: 165px; border: 1px solid rgb(23,162,184) ;" id="seatgroupname">
+                <label>Seats:&nbsp;</label><input class="border rounded border-info" type="number" style="width: 50px;border: 1px solid rgb(23,162,184) ;" placeholder="0" min="0" max="999" id="numofseats">
+                <button class="btn btn-primary" type="button" style="margin: 5px;background: rgb(56, 130, 141);" onclick="insertRow()">Add Group</button>
+            </div>
         </div>
-        <div class="row" style="margin-top: .25em;margin-bottom: .25em;">
-            <div class="col"><input type="radio" style="width: 16px;height: 16px;margin: 10px;color: rgb(0,0,0);filter: hue-rotate(0deg);border-style: none;border-color: rgb(0,0,0);"><input class="bg-white border-white shadow-none d-inline" type="text" placeholder="Group 2"
-                    style="border: none;width: 165px;" name="Group1"><label>Seats:&nbsp;</label><input class="border rounded border-info" type="number" style="width: 50px;border: 1px solid rgb(23,162,184) ;" placeholder="0" min="0" max="999"></div>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div class="table-responsive" style="margin-top: 15px;">
+            <table class="table" id="seatGroupTable" cellpadding="15px">
+                <thead>
+                    <tr>
+                        <th>Seat Group Name</th>
+                        <th>Number of Seats</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
-        <div class="row" style="margin-top: .25em;margin-bottom: .25em;">
-            <div class="col"><input type="radio" style="width: 16px;height: 16px;margin: 10px;color: rgb(0,0,0);filter: hue-rotate(0deg);border-style: none;border-color: rgb(0,0,0);"><label style="color: #808080;">&nbsp;Add Group</label></div>
-        </div>
+        <!-- <table id="seatGroupTable" cellpadding="15px">
+            <th>Seat Group Name</th>
+            <th>Number of Seats</th>
+        </table> -->
+        <div><button class="btn btn-primary" type="button" style="margin: 5px;background: rgb(23,162,184);" onclick="submitCreate()">Create Event</button></div>
     </div>
-    <hr style="/*color: rgb(0,0,0);*/background: #000000;">
-    <div><button class="btn btn-primary" type="button" style="margin: 5px;background: rgb(23,162,184);">Create Event</button><button class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: #414141;">Cancel</button></div>
-    </div>
+</div>
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/bootstrap/js/bootstrap.min.js"></script>
     <script src="/public/js/dropdown.js"></script>
+    <script>
+        function insertRow() {
+            var table = document.getElementById("seatGroupTable");
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = document.getElementById("seatgroupname").value;
+            cell2.innerHTML = document.getElementById("numofseats").value;
+        }
+
+        function submitCreate() {
+            const form = document.createElement('form');
+            form.method = 'post'
+            form.action = '/event/createevent'
+            
+            form.appendChild(createHiddenElement('eventName', 'eventName'))
+            console.log(form)
+            form.appendChild(createHiddenElement('contactEmail', 'contactEmail'))
+            form.appendChild(createHiddenElement('eventPrivacy', 'eventPrivacy'))
+            form.appendChild(createHiddenElement('imageUrl', 'imageUrl'))
+
+            var table = document.getElementById('seatGroupTable')
+            for (var i = 0; i < table.rows.length; i++) {
+                form.appendChild(createElementFromValue(`groupName${i}`, table.rows[i].cells[0].innerHTML))
+                form.appendChild(createElementFromValue(`groupSeatCount${i}`, table.rows[i].cells[1].innerHTML))
+            }
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function createHiddenElement(name, idForValue) {
+            return createElementFromValue(name, document.getElementById(idForValue).value);
+        }
+        function createElementFromValue(name, value) {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = name;
+            hiddenField.value = value;
+            return hiddenField;
+        }
+    </script>
 </body>
 
 </html>

@@ -42,9 +42,9 @@ var reservationExample = []*models.Reservation{
 }
 
 type TempJoin struct {
-	Res          models.Reservation
-	SpotUID      int64
-	SpotGroupUID int64
+	Res         models.Reservation
+	SpotId      int64
+	SpotGroupId int64
 }
 
 func (c Event) View(id string) revel.Result {

@@ -5,8 +5,8 @@ USE SeatSafe;
 -- Create tables -- 
 CREATE TABLE Event (
     EventId bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    PublicId varchar(36) NOT NULL,
-    PrivateId varchar(36) NOT NULL,
+    PublicId varchar(37) NOT NULL,
+    PrivateId varchar(37) NOT NULL,
     EventName varchar(100) NOT NULL,
     ContactEmail varchar(100) NOT NULL,
     PublicallyListed boolean NOT NULL,
@@ -29,7 +29,7 @@ ALTER TABLE SpotGroup AUTO_INCREMENT = 2000000000;
 
 CREATE TABLE Reservation (
     ReservationId bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    PrivateId varchar(36) NOT NULL,
+    PrivateId varchar(37) NOT NULL,
     Email varchar(100) NOT NULL,
     Name varchar(100) NOT NULL,
     EventId bigint NOT NULL,
