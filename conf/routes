@@ -12,6 +12,7 @@ GET     /event                                  Event.View
 GET     /event/create                           Event.Create
 POST    /event/createevent                      EventManager.CreateEvent
 GET     /reserve                                Reserve.Main
+GET     /reserve/cancel                         Reserve.Cancel
 
 
 # Ignore favicon requests
