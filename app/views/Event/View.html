@@ -1,103 +1,126 @@
-{{set . "title" "Home"}}
 {{template "header.html" .}}
 
-<header class="jumbotron">
-  <div class="container">
-    <div class="row">
-      <h1>SeatSafe</h1>
-      <p></p>
-    </div>
-  </div>
-</header>
 
-{{if .err}}
-<div class="alert alert-danger" style="margin-left: 50px; width: fit-content;">
-  {{.err}}
-</div>
-{{end}}
-
-{{if not .err}}
-<div class="container">
-  <h1>Event</h1>
-  <table style="width: 400px" >
-    <tr>
-      <th>UID:</th>
-      <td>{{.event.EventId}}</td>
-    </tr>
-    <tr>
-      <th>publicID:</th>
-      <td>{{.event.PublicId}}</td>
-    </tr>
-    <tr>
-      <th>PrivateID:</th>
-      <td>{{.event.PrivateId}}</td>
-    </tr>
-    <tr>
-      <th>EventName:</th>
-      <td>{{.event.EventName}}</td>
-    </tr>
-    <tr>
-      <th>ContactEmail:</th>
-      <td>{{.event.ContactEmail}}</td>
-    </tr>
-    <tr>
-      <th>PublicallyListed:</th>
-      <td>{{.event.PublicallyListed}}</td>
-    </tr>
-    <tr>
-      <th>image:</th>
-      <td>{{.event.ImageUrl}}</td>
-    </tr>
-    <tr>
-      <th>SpotsGroups:</th>
-      <td>
-        <table style="border: 1px solid black; width: 175px">
-          <tr>
-            <th>UID</th>
-            <th>EventUID</th>
-            <th>Name</th>
-          </tr>
-          {{range .spotGroups}}
-          <tr>
-            <td>{{.SpotGroupId}}</td>
-            <td>{{.EventId}}</td>
-            <td>{{.Name}}</td>
-          </tr>
-          {{end}}
-        </table>
-      </td>
-    </tr>
-    {{if .joins}}
-    <th>Spots + Reservations:</th>
-    <td>
-      <table style="border: 1px solid black; width: 500px">
-        <tr>
-          <th>resUID</th>
-          <th>resPrivateID</th>
-          <th>resEmail</th>
-          <th>resName</th>
-          <th>spotUID</th>
-          <th>spotGroupUID</th>
-        </tr>
-        {{range .joins}}
-        <tr>
-          <td>{{.Res.ReservationId}}</td>
-          <td>{{.Res.PrivateId}}</td>
-          <td>{{.Res.Email}}</td>
-          <td>{{.Res.Name}}</td>
-          <td>{{.SpotId}}</td>
-          <td>{{.SpotGroupId}}</td>
-        </tr>
+<body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
+    <div style="margin: auto;margin-left: 10em;margin-right: 10em;">
+        <h1 class="text-info" style="margin-top: .5em;">Event {{if .isadmin}} Admin {{end}} View</h1>
+        {{ if .err }}
+        <div class="alert alert-danger" style="margin-top: 2em; width: fit-content;">
+            {{.err}}
+        </div>
+        {{ end }} {{if not .err }}
+        <p></p>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div style="margin-left: 1em;margin-right: 5em;">
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Event Name</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">{{ .event.EventName }}<br></label></div>
+            </div>
+            <div class="row">
+                <div class="col-3"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;">
+                    <strong>Contact Email</strong>
+                </label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">
+                    {{ .event.ContactEmail }}
+                </label></div>
+            </div>
+            {{if .isadmin}}
+            <div class="row">
+                <div class="col-3"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;">
+                    <strong>
+                        Event Privacy
+                    </strong><br>
+                </label></div>
+                <div class="col">
+                    <label class="col-form-label" style="width: 400px;margin-bottom: 5px;">
+                        {{ if .event.PublicallyListed }} Public {{ end }}
+                        {{ if not .event.PublicallyListed }} Private {{ end }}
+                    </label></div>
+            </div>
+            <div class="row">
+                <div class="col-3"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;">
+                    <strong>Public Event Link</strong>
+                </label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">
+                    <a href="/event?id={{.event.PublicId}}">https://seatsafe.com/event?id={{.event.PublicId}}</a>
+                </label></div>
+            </div>
+            <div class="row">
+                <div class="col-3"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;">
+                    <strong>Private Event Link</strong>
+                </label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">
+                    <a href="/event?id={{.event.PrivateId}}">https://seatsafe.com/event?id={{.event.PrivateId}}</a>
+                </label></div>
+            </div>
+            {{ end }}
+            <div class="row">
+                <div class="col"><img src={{.event.ImageUrl}}></div>
+            </div>
+        </div>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;margin-top: 20px;margin-bottom: 20px;"><label style="width: 500px;color: rgb(23,162,184);"><strong>Seating Arrangement</strong><br></label>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Seat Group Name</th>
+                        <th>Number of Seats</th>
+                        <th>Number of Seats Remaining</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .SGJoin }}
+                    <tr>
+                        <td>{{ .SG.Name }}</td>
+                        <td>{{ .NumSpots }}</td>
+                        <td>{{ .NumSpotsRem }}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-left: 1em;"></div>
+        {{ if .isadmin }}
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;"><label class="text-info"><strong>Reservations</strong></label>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Seat Group</th>
+                        <th>Seats Reserved</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .ResJoin}}
+                    <tr>
+                        <td>{{.Res.Name}}</td>
+                        <td>{{.Res.Email}}</td>
+                        <td>{{.SpotGroupName}}</td>
+                        <td>{{.SpotsRes}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
         {{end}}
-      </table>
-    </td>
-    </tr>
-    {{end}}
-    <tr>
-      <th>Pass in ID:</th>
-      <td>{{.passin}}</td>
-    </tr>
-  </table>
-</div>
-{{end}}
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div>
+
+            {{if .isadmin }}
+            <button class="btn btn-primary bg-danger" type="button" style="margin: 5px;background: #414141; border-color:transparent">Cancel Event</button>
+            {{ end }}
+
+            {{ if not .isadmin }}
+            <a class="btn btn-primary" type="button" style="margin: 5px;background: #17a2b8; border-color: transparent;">Reserve Seats</a>
+            {{ end }}
+
+            <a class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: rgb(23,162,184); border-color: transparent;" href="/">Exit</a></div>
+        {{end}}
+    </div>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
 {{template "footer.html" .}}

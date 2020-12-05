@@ -18,7 +18,7 @@ var eventExample = &models.Event{
 	EventName:        "event example",
 	ContactEmail:     "test@gmail.com",
 	PublicallyListed: false,
-	ImageUrl:         "example/path",
+	ImageUrl:         "https://assets.change.org/photos/7/qj/gy/GtQJGyGFioacDMA-400x225-noPad.jpg?1524796577",
 }
 
 // spotgroup example hardcode //
@@ -32,6 +32,7 @@ var spotExample = []*models.Spot{
 	{SpotId: 2, SpotGroupId: 1, ReservationId: 4},
 	{SpotId: 3, SpotGroupId: 2, ReservationId: 2},
 	{SpotId: 4, SpotGroupId: 2, ReservationId: 3},
+	{SpotId: 4, SpotGroupId: 2, ReservationId: 0},
 }
 
 var reservationExample = []*models.Reservation{
@@ -41,10 +42,16 @@ var reservationExample = []*models.Reservation{
 	{ReservationId: 4, PrivateId: "privateid4", Email: "email4@gmail.com", Name: "Name4"},
 }
 
-type TempJoin struct {
-	Res          models.Reservation
-	SpotUID      int64
-	SpotGroupUID int64
+type TempResJoin struct {
+	Res           models.Reservation
+	SpotsRes      int64
+	SpotGroupName string
+}
+
+type TempSGJoin struct {
+	SG          models.SpotGroup
+	NumSpotsRem int64
+	NumSpots    int64
 }
 
 func (c Event) View(id string) revel.Result {
@@ -58,20 +65,44 @@ func (c Event) View(id string) revel.Result {
 	event := eventExample
 	spotGroups := spotGroupExample
 	spots := spotExample
-	passin := id
 	reservations := reservationExample
 
 	//// TOADD: QUERYING OF THE DATABASE ////
 
 	// joining spots and reservations //
 	// prob temp //
-	var joins []*TempJoin
-	for _, spot := range spots {
-		for _, reservation := range reservations {
-			if spot.ReservationId == reservation.ReservationId {
-				joins = append(joins, &TempJoin{Res: *reservation, SpotId: spot.SpotId, SpotGroupId: spot.SpotGroupId})
+	var SGJoin []*TempSGJoin
+	var temp *TempSGJoin
+	for _, SG := range spotGroups {
+		temp = &TempSGJoin{SG: *SG, NumSpotsRem: 0, NumSpots: 0}
+		for _, spot := range spots {
+			if spot.SpotGroupId == SG.SpotGroupId {
+				temp.NumSpots++
+				if spot.ReservationId == 0 {
+					temp.NumSpotsRem++
+				}
 			}
 		}
+		SGJoin = append(SGJoin, temp)
+	}
+
+	var ResJoin []*TempResJoin
+	var temp2 *TempResJoin
+
+	for _, res := range reservations {
+		temp2 = &TempResJoin{Res: *res, SpotsRes: 0, SpotGroupName: ""}
+
+		for _, spot := range spots {
+			if spot.ReservationId == res.ReservationId {
+				temp2.SpotsRes++
+				for _, sg := range spotGroups {
+					if sg.SpotGroupId == spot.SpotGroupId {
+						temp2.SpotGroupName = sg.Name
+					}
+				}
+			}
+		}
+		ResJoin = append(ResJoin, temp2)
 	}
 
 	notFound := false // temp this will be set automatically
@@ -84,14 +115,16 @@ func (c Event) View(id string) revel.Result {
 
 	// render either public or private page
 	if id[0] == 'v' { // render private page
-		return c.Render(event, spotGroups, joins, passin)
+		isadmin := true
+		return c.Render(event, spotGroups, SGJoin, ResJoin, isadmin)
 	}
 	if id[0] == 'b' { // render public page
-		return c.Render(event, spotGroups, passin)
+		isadmin := false
+		return c.Render(event, spotGroups, SGJoin, isadmin)
 	}
 
 	// it needs this here but we wont need it ¯\_(ツ)_/¯
-	return c.Render(event, spotGroups, passin)
+	return c.Render(event, spotGroups)
 }
 
 func (c Event) Create(id string) revel.Result {
