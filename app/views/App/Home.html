@@ -1,0 +1,48 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
+    <div class="bg-info highlight-blue">
+        <div class="container">
+            <div class="intro">
+                <h2 class="display-4 text-left" style="width: 620px;">Welcome to Seat Safe</h2>
+                <p class="text-center text-white"><strong>The simple solution to event seating</strong><br><strong>for both attendees and hosts</strong></p>
+            </div>
+            <div class="buttons"><a class="btn btn-primary" role="button" href="/browse">View events</a><a class="btn btn-primary" role="button" href="/event/create">Create an event</a></div>
+        </div>
+    </div>
+    <div class="article-clean">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+                    <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+                    <div class="intro">
+                        <h1 class="text-center" style="font-family: Lora, serif;margin-bottom: 7px;">How to use Seat Safe</h1>
+                    </div>
+                    <div class="text">
+                        <p>Seat Safe is a seat reservation app that provides an intuitive interface for hosts to make a reservation chart and for users to select what spots they would like to select for the event.<br></p>
+                        <h2>View List of Events<br></h2>
+                        <p>-Go to “Browse Events” page via the navigation bar at the top<br>-From here, you will see a list of all of the public events<br></p>
+                        <h2>Creating an event<br></h2>
+                        <p>-Go to the “Create Event” section of website through the button on top right of the navigation bar<br>-Enter in all relevant information for the event which includes the event’s name, your contact email, and an image for the seating
+                            chart of the event (you must provide a link to your own seating chart)<br>-Chose whether you want the event to be public or private<br>-Add/remove seating groups by including a name and number of seats and then clicking the
+                            'Add Group button'<br>-When you are done select 'Create Event' at the bottom to publish your event<br>-You will be given a link for your event details.&nbsp;<strong>Keep track of this link, as it is the only way to view and cancel your event&nbsp;</strong><br></p>
+                        <h2>Make a Reservation<br></h2>
+                        <p>-On the “Browse Events” page, select “View” on an event to get to the reservation page for that event<br>-Enter your name and email into the text fields<br>-Select how many seats you want in a particular group<br>-Hit “Reserve”
+                            to submit your reservation<br>-You will be given a link for your reservation details. <strong>Keep track of this link, as it is the only way to view and cancel your reservation&nbsp;</strong><br></p>
+                        <h2>Cancel a Reservation<br></h2>
+                        <p>-Navigate to the private link you received when you made your reservation<br>-Click the red 'X' button next to the reservation you would like to cancel</p>
+                        <h2>Cancel an Event</h2>
+                        <p>-Navigate to the private link you received when you made your event<br>-Click the 'Cancel Event' button at the bottom of the page<br></p>
+                        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+{{template "footer.html" .}}
