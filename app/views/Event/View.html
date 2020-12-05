@@ -10,20 +10,27 @@
   </div>
 </header>
 
+{{if .err}}
+<div class="alert alert-danger" style="margin-left: 50px; width: fit-content;">
+  {{.err}}
+</div>
+{{end}}
+
+{{if not .err}}
 <div class="container">
   <h1>Event</h1>
   <table style="width: 400px" >
     <tr>
       <th>UID:</th>
-      <td>{{.event.UID}}</td>
+      <td>{{.event.EventId}}</td>
     </tr>
     <tr>
       <th>publicID:</th>
-      <td>{{.event.PublicID}}</td>
+      <td>{{.event.PublicId}}</td>
     </tr>
     <tr>
       <th>PrivateID:</th>
-      <td>{{.event.PrivateID}}</td>
+      <td>{{.event.PrivateId}}</td>
     </tr>
     <tr>
       <th>EventName:</th>
@@ -39,7 +46,7 @@
     </tr>
     <tr>
       <th>image:</th>
-      <td>{{.event.Image}}</td>
+      <td>{{.event.ImageUrl}}</td>
     </tr>
     <tr>
       <th>SpotsGroups:</th>
@@ -52,16 +59,45 @@
           </tr>
           {{range .spotGroups}}
           <tr>
-            <td>{{.UID}}</td>
-            <td>{{.EventUID}}</td>
+            <td>{{.SpotGroupId}}</td>
+            <td>{{.EventId}}</td>
             <td>{{.Name}}</td>
           </tr>
           {{end}}
         </table>
       </td>
     </tr>
-    
+    {{if .joins}}
+    <th>Spots + Reservations:</th>
+    <td>
+      <table style="border: 1px solid black; width: 500px">
+        <tr>
+          <th>resUID</th>
+          <th>resPrivateID</th>
+          <th>resEmail</th>
+          <th>resName</th>
+          <th>spotUID</th>
+          <th>spotGroupUID</th>
+        </tr>
+        {{range .joins}}
+        <tr>
+          <td>{{.Res.ReservationId}}</td>
+          <td>{{.Res.PrivateId}}</td>
+          <td>{{.Res.Email}}</td>
+          <td>{{.Res.Name}}</td>
+          <td>{{.SpotId}}</td>
+          <td>{{.SpotGroupId}}</td>
+        </tr>
+        {{end}}
+      </table>
+    </td>
+    </tr>
+    {{end}}
+    <tr>
+      <th>Pass in ID:</th>
+      <td>{{.passin}}</td>
+    </tr>
   </table>
 </div>
-
+{{end}}
 {{template "footer.html" .}}
