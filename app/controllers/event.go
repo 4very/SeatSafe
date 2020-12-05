@@ -41,26 +41,27 @@ var reservationExample = []*models.Reservation{
 	{ReservationId: 4, PrivateId: "privateid4", Email: "email4@gmail.com", Name: "Name4"},
 }
 
-func (c Event) View() revel.Result {
-
-	event := eventExample
-	spotGroups := spotGroupExample
-
-	return c.Render(event, spotGroups)
-}
-
 type TempJoin struct {
 	Res          models.Reservation
 	SpotUID      int64
 	SpotGroupUID int64
 }
 
-func (c Event) Admin() revel.Result {
+func (c Event) View(id string) revel.Result {
+
+	// render with just an error
+	if id == "" {
+		err := "You need to choose an event to access!"
+		return c.Render(err)
+	}
 
 	event := eventExample
 	spotGroups := spotGroupExample
 	spots := spotExample
+	passin := id
 	reservations := reservationExample
+
+	//// TOADD: QUERYING OF THE DATABASE ////
 
 	// joining spots and reservations //
 	// prob temp //
@@ -68,11 +69,31 @@ func (c Event) Admin() revel.Result {
 	for _, spot := range spots {
 		for _, reservation := range reservations {
 			if spot.ReservationId == reservation.ReservationId {
-				joins = append(joins, &TempJoin{Res: *reservation, SpotUID: spot.SpotId, SpotGroupUID: spot.SpotGroupId})
+				joins = append(joins, &TempJoin{Res: *reservation, SpotId: spot.SpotId, SpotGroupId: spot.SpotGroupId})
 			}
 		}
 	}
 
-	return c.Render(event, spotGroups, joins)
+	notFound := false // temp this will be set automatically
 
+	// if it's not found in the database
+	if notFound {
+		err := "Event not found, please try again"
+		return c.Render(err)
+	}
+
+	// render either public or private page
+	if id[0] == 'v' { // render private page
+		return c.Render(event, spotGroups, joins, passin)
+	}
+	if id[0] == 'b' { // render public page
+		return c.Render(event, spotGroups, passin)
+	}
+
+	// it needs this here but we wont need it ¯\_(ツ)_/¯
+	return c.Render(event, spotGroups, passin)
+}
+
+func (c Event) Create(id string) revel.Result {
+	return c.Render()
 }
