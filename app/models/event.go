@@ -3,7 +3,7 @@ package models
 import "github.com/revel/revel"
 
 type Event struct {
-	EventId          int
+	EventId          int64
 	PublicId         string
 	PrivateId        string
 	EventName        string
