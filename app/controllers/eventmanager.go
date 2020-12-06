@@ -18,7 +18,7 @@ func (e EventManager) CreateEvent() revel.Result {
 	event := e.createEventFromFormData()
 	event.EventId = database.InsertEvent(event)
 	e.createSpotGroups(event.EventId)
-	return e.Redirect("/")
+	return e.Redirect("/event?id=" + event.PrivateId)
 }
 
 func (e EventManager) createEventFromFormData() models.Event {
