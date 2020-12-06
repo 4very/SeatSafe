@@ -109,7 +109,7 @@
         <div>
 
             {{if .isadmin }}
-            <button class="btn btn-primary bg-danger" type="button" style="margin: 5px;background: #414141; border-color:transparent">Cancel Event</button>
+            <a class="btn btn-primary bg-danger" type="button" style="margin: 5px;background: #414141; border-color:transparent" href="/event/delete?id={{.event.PrivateId}}">Cancel Event</button>
             {{ end }}
 
             {{ if not .isadmin }}
