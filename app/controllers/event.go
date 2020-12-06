@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"SeatSafe/app"
 	"SeatSafe/app/models"
+	"database/sql"
+	"fmt"
 
 	"github.com/revel/revel"
 )
@@ -10,46 +13,15 @@ type Event struct {
 	*revel.Controller
 }
 
-// event example hardcode //
-var eventExample = &models.Event{
-	EventId:          1,
-	PublicId:         "publicid1",
-	PrivateId:        "privateid1",
-	EventName:        "event example",
-	ContactEmail:     "test@gmail.com",
-	PublicallyListed: false,
-	ImageUrl:         "https://assets.change.org/photos/7/qj/gy/GtQJGyGFioacDMA-400x225-noPad.jpg?1524796577",
-}
-
-// spotgroup example hardcode //
-var spotGroupExample = []*models.SpotGroup{
-	{SpotGroupId: 1, EventId: 1, Name: "group1"},
-	{SpotGroupId: 2, EventId: 1, Name: "group2"},
-}
-
-var spotExample = []*models.Spot{
-	{SpotId: 1, SpotGroupId: 1, ReservationId: 1},
-	{SpotId: 2, SpotGroupId: 1, ReservationId: 4},
-	{SpotId: 3, SpotGroupId: 2, ReservationId: 2},
-	{SpotId: 4, SpotGroupId: 2, ReservationId: 3},
-	{SpotId: 4, SpotGroupId: 2, ReservationId: 0},
-}
-
-var reservationExample = []*models.Reservation{
-	{ReservationId: 1, PrivateId: "privateid1", Email: "email1@gmail.com", Name: "Name1"},
-	{ReservationId: 2, PrivateId: "privateid2", Email: "email2@gmail.com", Name: "Name2"},
-	{ReservationId: 3, PrivateId: "privateid3", Email: "email3@gmail.com", Name: "Name3"},
-	{ReservationId: 4, PrivateId: "privateid4", Email: "email4@gmail.com", Name: "Name4"},
-}
-
-type TempResJoin struct {
-	Res           models.Reservation
+type ResJoinStruct struct {
+	ResName       string
+	ResEmail      string
 	SpotsRes      int64
 	SpotGroupName string
 }
 
-type TempSGJoin struct {
-	SG          models.SpotGroup
+type SGJoinStruct struct {
+	SGName      string
 	NumSpotsRem int64
 	NumSpots    int64
 }
@@ -62,69 +34,63 @@ func (c Event) View(id string) revel.Result {
 		return c.Render(err)
 	}
 
-	event := eventExample
-	spotGroups := spotGroupExample
-	spots := spotExample
-	reservations := reservationExample
+	// query for event information
+	res := app.DB.QueryRow("SELECT * FROM Event WHERE PrivateId=? OR PublicId=?;", id, id)
 
-	//// TOADD: QUERYING OF THE DATABASE ////
+	var event *models.Event = &models.Event{}
+	sqlErr := res.Scan(&event.EventId, &event.PublicId, &event.PrivateId, &event.EventName, &event.ContactEmail, &event.PublicallyListed, &event.ImageUrl)
 
-	// joining spots and reservations //
-	// prob temp //
-	var SGJoin []*TempSGJoin
-	var temp *TempSGJoin
-	for _, SG := range spotGroups {
-		temp = &TempSGJoin{SG: *SG, NumSpotsRem: 0, NumSpots: 0}
-		for _, spot := range spots {
-			if spot.SpotGroupId == SG.SpotGroupId {
-				temp.NumSpots++
-				if spot.ReservationId == 0 {
-					temp.NumSpotsRem++
-				}
-			}
-		}
-		SGJoin = append(SGJoin, temp)
-	}
-
-	var ResJoin []*TempResJoin
-	var temp2 *TempResJoin
-
-	for _, res := range reservations {
-		temp2 = &TempResJoin{Res: *res, SpotsRes: 0, SpotGroupName: ""}
-
-		for _, spot := range spots {
-			if spot.ReservationId == res.ReservationId {
-				temp2.SpotsRes++
-				for _, sg := range spotGroups {
-					if sg.SpotGroupId == spot.SpotGroupId {
-						temp2.SpotGroupName = sg.Name
-					}
-				}
-			}
-		}
-		ResJoin = append(ResJoin, temp2)
-	}
-
-	notFound := false // temp this will be set automatically
-
-	// if it's not found in the database
-	if notFound {
+	if sqlErr == sql.ErrNoRows { // if the event is not found in the database
 		err := "Event not found, please try again"
 		return c.Render(err)
+	}
+
+	// Get seat group information
+	var SGJoin []*SGJoinStruct
+	var SGTemp *SGJoinStruct
+	SGquery, err := app.DB.Query(`SELECT sg.Name, count(*), count(CASE WHEN s.ReservationId is NULL THEN 1 END)
+								  FROM seatsafe.spotgroup sg, seatsafe.spot s
+							      WHERE sg.SpotGroupId=s.SpotGroupId AND sg.EventId=?
+							      GROUP BY sg.Name`, event.EventId)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	for SGquery.Next() {
+		SGTemp = &SGJoinStruct{}
+		SGquery.Scan(&SGTemp.SGName, &SGTemp.NumSpots, &SGTemp.NumSpotsRem)
+		SGJoin = append(SGJoin, SGTemp)
+	}
+
+	// Get Reservation information
+	var ResJoin []*ResJoinStruct
+	var ResTemp *ResJoinStruct
+	ResQuery, err := app.DB.Query(`SELECT r.Name, r.Email, sg.Name, count(s.SpotId)
+								FROM seatsafe.reservation r, seatsafe.spotgroup sg, seatsafe.spot s
+								WHERE r.ReservationId = s.ReservationId AND s.SpotGroupId = sg.SpotGroupId AND r.EventId=?
+								GROUP BY r.Name, r.Email, sg.Name`, event.EventId)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	for ResQuery.Next() {
+		ResTemp = &ResJoinStruct{}
+		ResQuery.Scan(&ResTemp.ResName, &ResTemp.ResEmail, &ResTemp.SpotGroupName, &ResTemp.SpotsRes)
+		ResJoin = append(ResJoin, ResTemp)
 	}
 
 	// render either public or private page
 	if id[0] == 'v' { // render private page
 		isadmin := true
-		return c.Render(event, spotGroups, SGJoin, ResJoin, isadmin)
+		return c.Render(event, SGJoin, ResJoin, isadmin)
 	}
 	if id[0] == 'b' { // render public page
 		isadmin := false
-		return c.Render(event, spotGroups, SGJoin, isadmin)
+		return c.Render(event, SGJoin, isadmin)
 	}
 
 	// it needs this here but we wont need it ¯\_(ツ)_/¯
-	return c.Render(event, spotGroups)
+	return c.Render(event)
 }
 
 func (c Event) Create(id string) revel.Result {
@@ -132,5 +98,8 @@ func (c Event) Create(id string) revel.Result {
 }
 
 func (c Event) List() revel.Result {
-	return c.Render()
+
+	var eventList []*models.Event
+
+	return c.Render(eventList)
 }

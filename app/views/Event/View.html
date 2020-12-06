@@ -71,7 +71,7 @@
                 <tbody>
                     {{ range .SGJoin }}
                     <tr>
-                        <td>{{ .SG.Name }}</td>
+                        <td>{{ .SGName }}</td>
                         <td>{{ .NumSpots }}</td>
                         <td>{{ .NumSpotsRem }}</td>
                     </tr>
@@ -95,8 +95,8 @@
                 <tbody>
                     {{range .ResJoin}}
                     <tr>
-                        <td>{{.Res.Name}}</td>
-                        <td>{{.Res.Email}}</td>
+                        <td>{{.ResName}}</td>
+                        <td>{{.ResEmail}}</td>
                         <td>{{.SpotGroupName}}</td>
                         <td>{{.SpotsRes}}</td>
                     </tr>
