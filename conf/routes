@@ -13,6 +13,7 @@ GET     /event/create                           Event.Create
 GET     /event/list                             Event.List
 
 POST    /event/createevent                      EventManager.CreateEvent
+GET     /event/delete                           EventManager.DeleteEvent
 GET     /reserve                                Reserve.Main
 GET     /reserve/cancel                         Reserve.Cancel
 
