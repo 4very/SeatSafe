@@ -60,7 +60,7 @@ func (c ReservationManager) Reserve(id string) revel.Result {
 
 	c.reserveSpotGroups(reservation.ReservationId)
 
-	return c.Redirect("/")
+	return c.Redirect("/reserve/cancel?id=" + reservation.PrivateId)
 }
 
 func (c ReservationManager) createReservationFromFormData(event models.Event) models.Reservation {
