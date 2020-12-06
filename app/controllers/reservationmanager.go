@@ -80,7 +80,9 @@ func (c ReservationManager) reserveSpotGroups(reservationId int64) {
 			break
 		}
 		numOfSeats, _ := strconv.ParseInt(formData.Get("seatsToReserveInGroup"+strconv.Itoa(i)), 10, 64)
-		database.ReserveSpotsInSpotGroup(reservationId, groupId, numOfSeats)
+		if numOfSeats > 0 {
+			database.ReserveSpotsInSpotGroup(reservationId, groupId, numOfSeats)
+		}
 	}
 }
 

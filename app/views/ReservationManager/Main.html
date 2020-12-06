@@ -84,9 +84,6 @@
             var table = document.getElementById('seatGroupTable')
             for (var i = 1; i < table.rows.length; i++) {
                 var rowButton = table.rows[i].cells[3].querySelector('input')
-                if (rowButton.value == 0) {
-                    continue
-                }
                 form.appendChild(createElementFromValue(`groupId${i}`, rowButton.name))
                 form.appendChild(createElementFromValue(`seatsToReserveInGroup${i}`, rowButton.value))
             }
