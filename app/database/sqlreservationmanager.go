@@ -33,3 +33,17 @@ func ReserveSpotsInSpotGroup(reservationId int64, spotGroupId int64, numOfSpots 
 		revel.AppLog.Error("Error reserving spots in database", "error", err)
 	}
 }
+
+func DeleteReservation(res models.Reservation) {
+
+	_, err := app.DB.Exec("DELETE FROM Reservation WHERE ReservationId = ?;", res.ReservationId)
+	if err != nil {
+		revel.AppLog.Error("Error deleting an Reservation in database", "error", err)
+		return
+	}
+	_, err = app.DB.Exec("UPDATE Spot SET ReservationId = Null WHERE ReservationId = ?;", res.ReservationId)
+	if err != nil {
+		revel.AppLog.Error("Error deleting an Reservation in database", "error", err)
+		return
+	}
+}

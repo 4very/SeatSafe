@@ -83,3 +83,9 @@ func (c ReservationManager) reserveSpotGroups(reservationId int64) {
 		database.ReserveSpotsInSpotGroup(reservationId, groupId, numOfSeats)
 	}
 }
+
+func (c ReservationManager) Delete(id string) revel.Result {
+	res, _ := database.GetResInfo(id)
+	database.DeleteReservation(*res)
+	return c.Redirect("/")
+}

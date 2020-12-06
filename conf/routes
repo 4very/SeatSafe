@@ -17,6 +17,7 @@ POST    /event/createevent                      EventManager.CreateEvent
 GET     /reserve                                ReservationManager.Main
 POST    /reserve/createReservation              ReservationManager.Reserve
 GET     /reserve/cancel                         ReservationManager.Cancel
+GET     /reserve/delete                         ReservationManager.Delete
 
 
 # Ignore favicon requests
