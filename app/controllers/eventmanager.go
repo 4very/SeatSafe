@@ -4,6 +4,7 @@ import (
 	"SeatSafe/app/database"
 	"SeatSafe/app/factories"
 	"SeatSafe/app/models"
+	"fmt"
 	"strconv"
 
 	"github.com/revel/revel"
@@ -58,4 +59,12 @@ func (e EventManager) createSpotGroups(eventId int64) {
 			NumOfSpots: int(numOfSeats)})
 	}
 	factories.CreateSpotGroups(spotGroups, eventId)
+}
+
+func (e EventManager) DeleteEvent(id string) revel.Result {
+
+	event, _ := database.GetEvent(id)
+	fmt.Println(event)
+	database.DeleteEvent(*event)
+	return e.Redirect("/")
 }

@@ -19,7 +19,6 @@ POST    /reserve/createReservation              ReservationManager.Reserve
 GET     /reserve/cancel                         ReservationManager.Cancel
 GET     /reserve/delete                         ReservationManager.Delete
 
-
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
