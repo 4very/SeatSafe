@@ -9,6 +9,7 @@ type Reservation struct {
 	PrivateId     string
 	Email         string
 	Name          string
+	EventId       int64
 }
 
 func (r Reservation) Validate(v *revel.Validation) {

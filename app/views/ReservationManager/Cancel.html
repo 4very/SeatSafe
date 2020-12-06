@@ -1,0 +1,59 @@
+{{template "header.html" .}}
+
+<body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
+    <div style="margin: auto;margin-left: 10em;margin-right: 10em;">
+        <h1 class="text-info" style="margin-top: .5em;">View or Cancel Reservation</h1>
+        <p></p>
+        {{ if .err }}
+        <div class="alert alert-danger" style="margin-top: 2em; width: fit-content;">
+            {{.err}}
+        </div>
+        {{ end }} {{if not .err }}
+        <div style="margin-left: 1em;margin-right: 5em;">
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Reservation Name</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">{{.Res.Name}}<br></label></div>
+            </div>
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Reservation Email</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">{{.Res.Email}}<br></label></div>
+            </div>
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Reservation Link</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;"> <a href="/reserve/cancel?id={{.Res.PrivateId}}">https://seatsafe.com/reserve/cancel?id={{.Res.PrivateId}}</a><br></label></div>
+            </div>
+        </div>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Contact Email</th>
+                        <th>Seat Group Name</th>
+                        <th>Seats Reserved</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .ResData}}
+                    <tr>
+                        <td><a href="/event?id={{.EventPubId}}">{{.EventName}}</a></td>
+                        <td>{{.EventEmail}}</td>
+                        <td>{{.SeatGroupName}}</td>
+                        <td>{{.SeatsReserved}}</td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div><a class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: rgb(23,162,184);">Exit</a>
+        <a class="btn btn-primary bg-danger" type="button" style="margin: 5px;background: #414141; border-color:transparent" href="/reserve/delete?id={{.Res.PrivateId}}">Cancel Reservation</a>
+        </div>
+    </div>
+    {{end}}
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+{{template "footer.html" .}}
