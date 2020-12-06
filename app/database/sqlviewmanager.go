@@ -14,7 +14,7 @@ func GetEvent(id string) (*models.Event, bool) {
 	var event *models.Event = &models.Event{}
 	sqlErr := res.Scan(&event.EventId, &event.PublicId, &event.PrivateId, &event.EventName, &event.ContactEmail, &event.PublicallyListed, &event.ImageUrl)
 	if sqlErr != nil {
-		fmt.Println(sqlErr)
+		revel.AppLog.Error("Error getting event in GetEvent", "error", sqlErr)
 	}
 	var isfound bool = sqlErr != sql.ErrNoRows
 	return event, isfound
