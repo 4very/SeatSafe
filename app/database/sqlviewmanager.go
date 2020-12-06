@@ -4,7 +4,8 @@ import (
 	"SeatSafe/app"
 	"SeatSafe/app/models"
 	"database/sql"
-	"fmt"
+
+	"github.com/revel/revel"
 )
 
 func GetEvent(id string) (*models.Event, bool) {
@@ -34,7 +35,7 @@ func GetPublicEvents() []*EventLineData {
 									GROUP BY e.EventName, e.ContactEmail, e.PublicId`)
 
 	if err != nil {
-		fmt.Println(err)
+		revel.AppLog.Error("Error getting Public Events data from database", "error", err)
 	}
 	for SGquery.Next() {
 		eventTemp = &EventLineData{}
@@ -47,6 +48,7 @@ func GetPublicEvents() []*EventLineData {
 }
 
 type SGLineData struct {
+	SpotGroupId int64
 	SGName      string
 	NumSpotsRem int64
 	NumSpots    int64
@@ -56,17 +58,19 @@ func GetSeatGroupData(eventId int64) []*SGLineData {
 
 	var SGData []*SGLineData
 	var SGTemp *SGLineData
-	SGquery, err := app.DB.Query(`SELECT sg.Name, count(*), count(CASE WHEN s.ReservationId is NULL THEN 1 END)
+	SGquery, err := app.DB.Query(`SELECT sg.Name, count(*), count(CASE WHEN s.ReservationId is NULL THEN 1 END), sg.SpotGroupId
 								  FROM SeatSafe.SpotGroup sg, SeatSafe.Spot s
 							      WHERE sg.SpotGroupId=s.SpotGroupId AND sg.EventId=?
-							      GROUP BY sg.Name`, eventId)
+							      GROUP BY sg.Name, sg.SpotGroupId`, eventId)
 
 	if err != nil {
-		fmt.Println(err)
+		revel.AppLog.Error("Error getting SeatGroup data from database", "error", err)
+	} else if SGquery == nil {
+		revel.AppLog.Error("Null rows returned when getting SeatGroup data", "event", eventId, "sgquery", SGquery)
 	}
 	for SGquery.Next() {
 		SGTemp = &SGLineData{}
-		SGquery.Scan(&SGTemp.SGName, &SGTemp.NumSpots, &SGTemp.NumSpotsRem)
+		SGquery.Scan(&SGTemp.SGName, &SGTemp.NumSpots, &SGTemp.NumSpotsRem, &SGTemp.SpotGroupId)
 		SGData = append(SGData, SGTemp)
 	}
 	return SGData
@@ -89,7 +93,7 @@ func GetResData(eventId int64) []*ResLineData {
 								GROUP BY r.Name, r.Email, sg.Name`, eventId)
 
 	if err != nil {
-		fmt.Println(err)
+		revel.AppLog.Error("Error getting Reservation data from database", "error", err)
 	}
 	for ResQuery.Next() {
 		ResTemp = &ResLineData{}

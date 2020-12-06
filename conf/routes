@@ -13,8 +13,10 @@ GET     /event/create                           Event.Create
 GET     /event/list                             Event.List
 
 POST    /event/createevent                      EventManager.CreateEvent
-GET     /reserve                                Reserve.Main
-GET     /reserve/cancel                         Reserve.Cancel
+
+GET     /reserve                                ReservationManager.Main
+POST    /reserve/createReservation              ReservationManager.Reserve
+GET     /reserve/cancel                         ReservationManager.Cancel
 
 
 # Ignore favicon requests

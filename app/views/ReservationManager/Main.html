@@ -1,0 +1,111 @@
+{{template "header.html" .}}
+
+<body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
+    <div style="margin: auto;margin-left: 10em;margin-right: 10em;">
+        <h1 class="text-info" style="margin-top: .5em;">Make a Reservation</h1>
+        {{ if .err }}
+        <div class="alert alert-danger" style="margin-top: 2em; width: fit-content;">
+            {{.err}}
+        </div>
+        {{ end }} {{if not .err }}
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div style="margin-left: 1em;margin-right: 5em;">
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Event Name</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">{{ .event.EventName }}<br></label></div>
+            </div>
+            <div class="row">
+                <div class="col-3"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Contact Email</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">{{ .event.ContactEmail }}</label></div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col"><img></div>
+            </div>
+        </div>
+        <p></p>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;margin-top: 20px;margin-bottom: 20px;"><label style="width: 500px;color: rgb(23,162,184);"><strong>Reserve Seats</strong><br></label>
+        <p>Enter your name and email, then select the number of seats you would like to reserve.</p>
+        <div style="margin-left: 1em;">
+            <div class="row">
+                <div class="col"><label style="width: 60px;">Name&nbsp;</label>
+                    <input id="reserverName" class="border rounded border-info" type="text" style="width: 300px;color: #808080;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"><label style="width: 60px;">Email</label>
+                    <input id="reserverEmail" class="border rounded border-info" type="text" style="width: 300px;color: #808080;">
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" style="margin-top: 15px;">
+            <table class="table" id="seatGroupTable">
+                <thead>
+                    <tr>
+                        <th>Seat Group Name</th>
+                        <th>Total Seats</th>
+                        <th>Available Seats</th>
+                        <th>Seats to Reserve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ range .SGJoin }}
+                    <tr>
+                        <td>{{ .SGName }}</td>
+                        <td>{{ .NumSpots }}</td>
+                        <td>{{ .NumSpotsRem }}</td>
+                        <td><input class="border rounded border-info" type="number" style="width: 50px;border: 1px solid rgb(23,162,184);margin-top: 4px;" placeholder="0" min="0" max="999" name={{.SpotGroupId}}></td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+            </table>
+        </div>
+        <td><button class="btn btn-primary bg-info" type="button" style="padding-top: 6px;" onclick=submitReservations()>Reserve</button></td>
+        <div>
+            <hr style="/*color: rgb(0,0,0);*/background: #000000;"><a class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: #414141;" href="/">Exit</a></div>
+        {{end}}
+    </div>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        function submitReservations(eventId) {
+            var eventId = (new URLSearchParams(window.location.search)).get('id')
+
+            const form = document.createElement('form')
+            form.method = 'post'
+            form.action = `/reserve/createReservation?id=${eventId}`
+            
+            form.appendChild(createElementFromValue("eventId", eventId))
+            form.appendChild(createHiddenElement("reserverName", "reserverName"))
+            form.appendChild(createHiddenElement("reserverEmail", "reserverEmail"))
+
+            var table = document.getElementById('seatGroupTable')
+            for (var i = 1; i < table.rows.length; i++) {
+                var rowButton = table.rows[i].cells[3].querySelector('input')
+                if (rowButton.value == 0) {
+                    continue
+                }
+                form.appendChild(createElementFromValue(`groupId${i}`, rowButton.name))
+                form.appendChild(createElementFromValue(`seatsToReserveInGroup${i}`, rowButton.value))
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function createHiddenElement(name, idForValue) {
+            return createElementFromValue(name, document.getElementById(idForValue).value);
+        }
+        function createElementFromValue(name, value) {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = name;
+            hiddenField.value = value;
+            return hiddenField;
+        }
+    </script>
+</body>
+
+{{ template "footer.html" .}}
