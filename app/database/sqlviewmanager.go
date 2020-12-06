@@ -29,7 +29,7 @@ func GetPublicEvents() []*EventLineData {
 	var eventList []*EventLineData
 	var eventTemp *EventLineData
 	SGquery, err := app.DB.Query(`Select e.EventName, e.ContactEmail, e.PublicId, count(*), count(CASE WHEN s.ReservationId is NULL THEN 1 END)
-									FROM seatsafe.event e, seatsafe.spotgroup sg, seatsafe.spot s
+									FROM SeatSafe.Event e, SeatSafe.SpotGroup sg, SeatSafe.Spot s
 									WHERE e.EventId = sg.EventId AND sg.SpotGroupId = s.SpotGroupId AND e.PublicallyListed = 1
 									GROUP BY e.EventName, e.ContactEmail, e.PublicId`)
 
@@ -57,7 +57,7 @@ func GetSeatGroupData(eventId int64) []*SGLineData {
 	var SGData []*SGLineData
 	var SGTemp *SGLineData
 	SGquery, err := app.DB.Query(`SELECT sg.Name, count(*), count(CASE WHEN s.ReservationId is NULL THEN 1 END)
-								  FROM seatsafe.spotgroup sg, seatsafe.spot s
+								  FROM SeatSafe.SpotGroup sg, SeatSafe.Spot s
 							      WHERE sg.SpotGroupId=s.SpotGroupId AND sg.EventId=?
 							      GROUP BY sg.Name`, eventId)
 
@@ -84,7 +84,7 @@ func GetResData(eventId int64) []*ResLineData {
 	var ResJoin []*ResLineData
 	var ResTemp *ResLineData
 	ResQuery, err := app.DB.Query(`SELECT r.Name, r.Email, sg.Name, count(s.SpotId)
-								FROM seatsafe.reservation r, seatsafe.spotgroup sg, seatsafe.spot s
+								FROM SeatSafe.Reservation r, SeatSafe.SpotGroup sg, SeatSafe.Spot s
 								WHERE r.ReservationId = s.ReservationId AND s.SpotGroupId = sg.SpotGroupId AND r.EventId=?
 								GROUP BY r.Name, r.Email, sg.Name`, eventId)
 
