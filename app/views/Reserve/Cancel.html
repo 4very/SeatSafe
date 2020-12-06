@@ -1,0 +1,43 @@
+{{template "header.html" .}}
+
+<body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
+    <div style="margin: auto;margin-left: 10em;margin-right: 10em;">
+        <h1 class="text-info" style="margin-top: .5em;">View or Cancel Reservations</h1>
+        <p></p>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Contact Email</th>
+                        <th>Seat Group Name</th>
+                        <th>Seats Reserved</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dog Catcher Fundraiser</td>
+                        <td>kennelKeith@gmail.com</td>
+                        <td>Group 1</td>
+                        <td>3</td>
+                        <td><button class="btn btn-primary btn-sm bg-danger border-dark" type="button" style="height: 30px;width: 30px;">X</button></td>
+                    </tr>
+                    <tr>
+                        <td>Shake Shack Grand Opening</td>
+                        <td>shakeshack4324@shack.com</td>
+                        <td>Front Row</td>
+                        <td>2</td>
+                        <td><button class="btn btn-primary btn-sm bg-danger border-dark" type="button" style="height: 30px;width: 30px;">X</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div><a class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: rgb(23,162,184);" href="/">Exit</a></div>
+    </div>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+{{template "footer.html" .}}

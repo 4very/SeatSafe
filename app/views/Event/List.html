@@ -1,0 +1,40 @@
+{{template "header.html" .}}
+
+
+<body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
+    <div style="margin: auto;margin-left: 10em;margin-right: 10em;">
+        <h1 class="text-info" style="margin-top: .5em;">Available Events</h1>
+        <p></p>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Contact Email</th>
+                        <th>Total Seats</th>
+                        <th>Seats Available</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{ range .eventList}}
+                    <tr>
+                        <td>{{.EventName}}</td>
+                        <td>{{.EventEmail}}</td>
+                        <td>{{.TotSeats}}</td>
+                        <td>{{.AvalSeats}}</td>
+                        <td><a class="btn btn-primary bg-info" type="button" style="padding-top: 6px;" href="/event?id={{.EventPublicId}}">View</a></td>
+                        <td></td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+        <hr style="/*color: rgb(0,0,0);*/background: #000000;">
+    </div>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+{{template "footer.html" .}}

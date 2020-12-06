@@ -8,10 +8,6 @@ type App struct {
 	*revel.Controller
 }
 
-func (c App) Index() revel.Result {
-	return c.Render()
-}
-
-func (c App) Test() revel.Result {
+func (c App) Home() revel.Result {
 	return c.Render()
 }
