@@ -103,3 +103,42 @@ func GetResData(eventId int64) []*ResLineData {
 
 	return ResJoin
 }
+
+func GetResInfo(ResPrivId string) (*models.Reservation, bool) {
+
+	var resv *models.Reservation = &models.Reservation{}
+
+	query := app.DB.QueryRow("SELECT * FROM Reservation WHERE PrivateId=?;", ResPrivId)
+	sqlErr := query.Scan(&resv.ReservationId, &resv.PrivateId, &resv.Email, &resv.Name, &resv.EventId)
+	var isfound bool = sqlErr != sql.ErrNoRows
+	return resv, isfound
+}
+
+type ResViewData struct {
+	EventName     string
+	EventEmail    string
+	EventPubId    string
+	SeatGroupName string
+	SeatsReserved int64
+}
+
+func GetResViewData(ResId int64) []*ResViewData {
+
+	var ResJoin []*ResViewData
+	var ResTemp *ResViewData
+	ResQuery, err := app.DB.Query(`SELECT e.EventName, e.ContactEmail, e.PublicId, sg.Name, count(*)
+									FROM SeatSafe.Event e, SeatSafe.SpotGroup sg, SeatSafe.Spot s
+									WHERE s.SpotGroupId = sg.SpotGroupId AND e.EventId = sg.EventId AND s.ReservationId=?
+									GROUP BY e.EventName, e.ContactEmail, e.PublicId, sg.Name`, ResId)
+
+	if err != nil {
+		revel.AppLog.Error("Error getting Reservation data from database", "error", err)
+	}
+	for ResQuery.Next() {
+		ResTemp = &ResViewData{}
+		ResQuery.Scan(&ResTemp.EventName, &ResTemp.EventEmail, &ResTemp.EventPubId, &ResTemp.SeatGroupName, &ResTemp.SeatsReserved)
+		ResJoin = append(ResJoin, ResTemp)
+	}
+
+	return ResJoin
+}

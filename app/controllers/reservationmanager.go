@@ -31,7 +31,20 @@ func (c ReservationManager) Main(id string) revel.Result {
 }
 
 func (c ReservationManager) Cancel(id string) revel.Result {
-	return c.Render()
+	if id == "" {
+		err := "Your need to choose a reservation to access!"
+		return c.Render(err)
+	}
+
+	Res, isFound := database.GetResInfo(id)
+	if !isFound {
+		err := "Reservation not found, please try again"
+		return c.Render(err)
+	}
+
+	ResData := database.GetResViewData(Res.ReservationId)
+
+	return c.Render(Res, ResData)
 }
 
 func (c ReservationManager) Reserve(id string) revel.Result {

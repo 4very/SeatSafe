@@ -2,8 +2,27 @@
 
 <body style="background: #ffffff;/*padding-left: 200px;*//*padding-right: 200px;*//*margin-left: 20em;*//*margin-right: 20em;*//*margin-top: 2em;*/text-align: left;margin-bottom: 2em;">
     <div style="margin: auto;margin-left: 10em;margin-right: 10em;">
-        <h1 class="text-info" style="margin-top: .5em;">View or Cancel Reservations</h1>
+        <h1 class="text-info" style="margin-top: .5em;">View or Cancel Reservation</h1>
         <p></p>
+        {{ if .err }}
+        <div class="alert alert-danger" style="margin-top: 2em; width: fit-content;">
+            {{.err}}
+        </div>
+        {{ end }} {{if not .err }}
+        <div style="margin-left: 1em;margin-right: 5em;">
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Reservation Name</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">{{.Res.Name}}<br></label></div>
+            </div>
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Reservation Email</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;">{{.Res.Email}}<br></label></div>
+            </div>
+            <div class="row">
+                <div class="col-3" style="width: 358px;"><label class="col-form-label" style="width: 150px;margin-bottom: 5px;"><strong>Reservation Link</strong></label></div>
+                <div class="col"><label class="col-form-label" style="width: 400px;margin-bottom: 5px;"> <a href="/reserve/cancel?id={{.Res.PrivateId}}">https://seatsafe.com/reserve/cancel?id={{.Res.PrivateId}}</a><br></label></div>
+            </div>
+        </div>
         <hr style="/*color: rgb(0,0,0);*/background: #000000;">
         <div class="table-responsive">
             <table class="table">
@@ -16,26 +35,22 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{ range .ResData}}
                     <tr>
-                        <td>Dog Catcher Fundraiser</td>
-                        <td>kennelKeith@gmail.com</td>
-                        <td>Group 1</td>
-                        <td>3</td>
-                        <td><button class="btn btn-primary btn-sm bg-danger border-dark" type="button" style="height: 30px;width: 30px;">X</button></td>
+                        <td><a href="/event?id={{.EventPubId}}">{{.EventName}}</a></td>
+                        <td>{{.EventEmail}}</td>
+                        <td>{{.SeatGroupName}}</td>
+                        <td>{{.SeatsReserved}}</td>
+                        <td><a class="btn btn-primary btn-sm bg-danger border-dark" type="button" style="height: 30px;width: 30px;">X</a></td>
                     </tr>
-                    <tr>
-                        <td>Shake Shack Grand Opening</td>
-                        <td>shakeshack4324@shack.com</td>
-                        <td>Front Row</td>
-                        <td>2</td>
-                        <td><button class="btn btn-primary btn-sm bg-danger border-dark" type="button" style="height: 30px;width: 30px;">X</button></td>
-                    </tr>
+                    {{end}}
                 </tbody>
             </table>
         </div>
         <hr style="/*color: rgb(0,0,0);*/background: #000000;">
         <div><a class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: rgb(23,162,184);" href="/">Exit</a></div>
     </div>
+    {{end}}
     <script src="/public/js/jquery.min.js"></script>
     <script src="/public/bootstrap/js/bootstrap.min.js"></script>
 </body>
