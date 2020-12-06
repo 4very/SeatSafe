@@ -113,7 +113,7 @@
             {{ end }}
 
             {{ if not .isadmin }}
-            <a class="btn btn-primary" type="button" style="margin: 5px;background: #17a2b8; border-color: transparent;">Reserve Seats</a>
+            <a class="btn btn-primary" type="button" style="margin: 5px;background: #17a2b8; border-color: transparent;" href="/reserve?id={{.event.PublicId}}">Reserve Seats</a>
             {{ end }}
 
             <a class="btn btn-primary bg-dark" type="button" style="margin: 5px;background: rgb(23,162,184); border-color: transparent;" href="/">Exit</a></div>

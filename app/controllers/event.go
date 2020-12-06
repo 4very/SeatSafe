@@ -97,9 +97,31 @@ func (c Event) Create(id string) revel.Result {
 	return c.Render()
 }
 
+type EventList struct {
+	EventName     string
+	EventEmail    string
+	EventPublicId string
+	TotSeats      int64
+	AvalSeats     int64
+}
+
 func (c Event) List() revel.Result {
 
-	var eventList []*models.Event
+	var eventList []*EventList
+	var eventTemp *EventList
+	SGquery, err := app.DB.Query(`Select e.EventName, e.ContactEmail, e.PublicId, count(*), count(CASE WHEN s.ReservationId is NULL THEN 1 END)
+									FROM seatsafe.event e, seatsafe.spotgroup sg, seatsafe.spot s
+									WHERE e.EventId = sg.EventId AND sg.SpotGroupId = s.SpotGroupId AND e.PublicallyListed = 1
+									GROUP BY e.EventName, e.ContactEmail, e.PublicId`)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+	for SGquery.Next() {
+		eventTemp = &EventList{}
+		SGquery.Scan(&eventTemp.EventName, &eventTemp.EventEmail, &eventTemp.EventPublicId, &eventTemp.TotSeats, &eventTemp.AvalSeats)
+		eventList = append(eventList, eventTemp)
+	}
 
 	return c.Render(eventList)
 }
